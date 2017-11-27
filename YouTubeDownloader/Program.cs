@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace YouTubeDownloader
+namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace YouTubeDownloader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new YoutubeDownladerApplication());
         }
     }
 }

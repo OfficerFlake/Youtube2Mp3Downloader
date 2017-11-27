@@ -1,6 +1,8 @@
-﻿namespace YouTubeDownloader
+﻿using System.Windows.Forms;
+
+namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 {
-    partial class Form1
+    partial class YoutubeDownladerApplication
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +30,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YoutubeDownladerApplication));
+            this.SuspendLayout();
+            // 
+            // YoutubeDownladerApplication
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "YoutubeDownladerApplication";
             this.Text = "Form1";
+
+            this.WindowState = FormWindowState.Minimized;
+            this.ShowInTaskbar = false;
+
+            this.ResumeLayout(false);
+            
         }
 
         #endregion
