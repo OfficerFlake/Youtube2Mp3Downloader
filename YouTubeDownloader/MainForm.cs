@@ -35,7 +35,7 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 			    TrayIcon.BalloonTipText = body;
 		    }
 
-		    TrayIcon.ShowBalloonTip(3000);
+		    TrayIcon.ShowBalloonTip(500);
 		    return TrayIcon;
 	    }
 		static void Exit(object sender, EventArgs e)
@@ -44,7 +44,9 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 		    // Otherwise it will be left behind until the user mouses over.
 		    TrayIcon.Visible = false;
 			TrayIcon.Dispose();
-			ExitApplication.Dispose();
+		    CurrentProcess?.Kill();
+		    ExitApplication.Dispose();
+			
 		    Application.Exit();
 	    }
 		#endregion
@@ -52,6 +54,7 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 		#region Downloader Thread
 		public static ConcurrentQueue<string> URLsPending = new ConcurrentQueue<string>();
 	    public static Thread DownloadManager = null;
+	    public static Process CurrentProcess = null;
 
 		static bool ValidateURL(string InputUrl)
 		{
@@ -129,7 +132,7 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 			StartYoutubeDL.UseShellExecute = UseConsole && false;
 			StartYoutubeDL.CreateNoWindow = UseConsole || true;
 
-			var CurrentProcess = Process.Start(StartYoutubeDL);
+			CurrentProcess = Process.Start(StartYoutubeDL);
 			ShowBalloon("Downloading a YouTube video!", "https://www.youtube.com/watch?v=" + VideoID);
 			if (CurrentProcess != null)
 			{
