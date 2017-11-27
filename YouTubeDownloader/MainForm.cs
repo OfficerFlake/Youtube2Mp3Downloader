@@ -19,8 +19,8 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
     public partial class YoutubeDownladerApplication : Form
     {
 		#region SystemTray
-		private static NotifyIcon TrayIcon;
-		private static MenuItem ExitApplication;
+		public static NotifyIcon TrayIcon;
+		public static MenuItem ExitApplication;
 
 
 	    static NotifyIcon ShowBalloon(string title, string body)
@@ -43,13 +43,15 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 		    // We must manually tidy up and remove the icon before we exit.
 		    // Otherwise it will be left behind until the user mouses over.
 		    TrayIcon.Visible = false;
+			TrayIcon.Dispose();
+			ExitApplication.Dispose();
 		    Application.Exit();
 	    }
 		#endregion
 
 		#region Downloader Thread
-		private static ConcurrentQueue<string> URLsPending = new ConcurrentQueue<string>();
-	    private static Thread DownloadManager = null;
+		public static ConcurrentQueue<string> URLsPending = new ConcurrentQueue<string>();
+	    public static Thread DownloadManager = null;
 
 		static bool ValidateURL(string InputUrl)
 		{
@@ -149,13 +151,12 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 
 		#region Clipboard
 		[DllImport("User32.dll")]
-        protected static extern int SetClipboardViewer(int hWndNewViewer);
+		protected static extern int SetClipboardViewer(int hWndNewViewer);
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
 
-	    private bool isLoaded = false;
 	    static string GetClipboardUpdate()
 	    {
 		    try
@@ -188,20 +189,18 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
             TrayIcon.Visible = true;
             Visible = false;
 
-            nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-	        isLoaded = true;
+			nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
         }
 
 		//EVENT
 		#region Clipboard Updated
-		IntPtr nextClipboardViewer;
+		public IntPtr nextClipboardViewer;
 		protected override void WndProc(ref System.Windows.Forms.Message m)
         {
             // defined in winuser.h
             const int WM_DRAWCLIPBOARD = 0x308;
             const int WM_CHANGECBCHAIN = 0x030D;
 
-	        if (!isLoaded) return; //Prevent auto download from clipboard on app start.
             switch (m.Msg)
             {
                 case WM_DRAWCLIPBOARD:
