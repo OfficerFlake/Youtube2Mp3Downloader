@@ -22,7 +22,6 @@ namespace Com.OfficerFlake.Executables.YouTube2Mp3Downloader
 		public static NotifyIcon TrayIcon;
 		public static MenuItem ExitApplication;
 
-
 	    static NotifyIcon ShowBalloon(string title, string body)
 	    {
 		    if (title != null)
